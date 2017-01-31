@@ -113,17 +113,14 @@ export class OAuthService {
         return new Promise((resolve, reject) => { 
             let search = new URLSearchParams();
             search.set('grant_type', 'password');
-            search.set('client_id', this.clientId);
             search.set('scope', this.scope);
             search.set('username', userName);
             search.set('password', password);
             
-            if (this.dummyClientSecret) {
-                search.set('client_secret', this.dummyClientSecret);
-            }
 
             let headers = new Headers();
             headers.set('Content-Type', 'application/x-www-form-urlencoded');
+	    headers.set('Authorization', 'Basic ' + btoa(this.clientId + ':' + this.dummyClientSecret));
 
             let params = search.toString();
 
